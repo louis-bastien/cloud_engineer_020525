@@ -84,7 +84,8 @@ Something like :
 }
 ```
 
-# Scenario #3 : Backups Module with Terraform
+## Scenario #3: Backup Module with Terraform
 
-As mentionned in my CV, I am just learning Terraform hence I am not yet fully proficient with it.
-That being said you can find my Terraform module in the main.tf file in this repository.
+As mentioned in my CV, I’m currently learning Terraform and actively building hands-on experience with it.  
+While I'm not yet fully proficient, I’ve implemented a backup plan as requested in the `backup_plan.tf` file.
+I assumed that the cross-region and cross-account destination backup vaults are pre-provisioned and therefore did not include their creation in this module.
