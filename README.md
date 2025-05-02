@@ -1,6 +1,6 @@
 # Scenario #1 : Encrypton Key Management/Rotation
 
-## Challenges
+### Challenges
 I can identify a few challenges in applying key rotation in the given setup:
 - Keys are generated on-prem (BYOK), so rotation requires coordination between the on-prem HSM and AWS KMS.
 - Each environment (dev, int, prod) and service (S3, RDS, DDB) has its own key, which increases complexity and maintenance overhead.
@@ -8,7 +8,7 @@ I can identify a few challenges in applying key rotation in the given setup:
 - Potential compliance issues if some keys or resources are missed during the rotation process.
 
 
-## Key rotation 
+### Key rotation 
 
 To rotate the keys, I would follow these steps:
 1. Generate a new key on the on-prem HSM.
@@ -18,7 +18,7 @@ To rotate the keys, I would follow these steps:
 5. Re-encrypt existing data to use the new key (if required).
 6. Deactivate and retire the old key once validated.
 
-## Resource monitoring
+### Resource monitoring
 
 To monitor resources and ensure compliance, I would use the following AWS services:
 - **AWS Config**: Create custom rules to check that each service (S3, RDS, DDB) is using the expected CMK ARN.
@@ -26,7 +26,7 @@ To monitor resources and ensure compliance, I would use the following AWS servic
 - **AWS Lambda**: Run a scheduled function that lists resources, fetches their CMK, and compares it to the expected key; notify or log any mismatches.
 - **Amazon CloudWatch / EventBridge**: Trigger alerts when sensitive events occur (e.g., key imports, resource creation without CMK, etc.).
 
-## External Key import
+### External Key import
 To securely import external key material, I would follow the AWS Import Key process:
 
 - Create a new CMK in AWS KMS and choose the "External Key Material" option.
@@ -36,7 +36,7 @@ To securely import external key material, I would follow the AWS Import Key proc
 
 # Scenario #2 : Hybrid API architecutre
 
-## Weaknesses
+### Weaknesses
 
 I can see several weaknesses in the API architecture in this scenario:
 - All APIs (even internal ones) are public and exposed via the internet.
@@ -44,7 +44,7 @@ I can see several weaknesses in the API architecture in this scenario:
 - A single shared domain (`api.allianz-trade.com`) is used for all APIs.
 - Backend services (Lambda or ECS) might be exposed publicly if misconfigured.
 
-## New architecture
+### New architecture
 
 To change the given "public" architecture into the new one, I would split it in two :
 
@@ -57,7 +57,7 @@ For APIs intended for internal usage I would :
 - Move the APIs to private API Gateway endpoints.
 - Expose them only inside a VPC so that internal services call these APIs directly without crossing the internet.
 
-## Routing via CloudFront
+### Routing via CloudFront
 
 In order to route traffic to different APIGWs, I could simply setup rules like :
 - `/users/*` → API Gateway A
@@ -65,7 +65,7 @@ In order to route traffic to different APIGWs, I could simply setup rules like :
 - `/admin/*` → API Gateway C
 
 
-## Prevent bypassing CloudFront
+### Prevent bypassing CloudFront
 
 I woud write a resource policy in my IPGWs that explicitly blocks all requests unless they come from CloudFront IP ranges.
 Something like : 
@@ -84,6 +84,7 @@ Something like :
 }
 ```
 
+# Scenario #3 : Backups Module with Terraform
 
-
-
+As mentionned in my CV, I am just learning Terraform hence I am not yet fully proficient with it.
+You can find my Terraform module in the main.tf file in this repository.
