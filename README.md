@@ -87,4 +87,4 @@ Something like :
 # Scenario #3 : Backups Module with Terraform
 
 As mentionned in my CV, I am just learning Terraform hence I am not yet fully proficient with it.
-You can find my Terraform module in the main.tf file in this repository.
+That being said you can find my Terraform module in the main.tf file in this repository.
